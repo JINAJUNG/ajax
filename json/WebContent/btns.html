@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<div id="htmlDiv" style="background-color: green"><!-- insertAdjacentHTML -->
+	</div>
+	<button data-target="get,/json/content.jsp">버튼</button>
+	<button data-target="post,/json/content.jsp">전송버튼</button>
+	<script type="text/javascript">
+		var btns= document.querySelectorAll('button[data-target]');
+		var htmlDiv = document.querySelector('#htmlDiv');
+		function callbacks(res){//자바스크립트는 매개변수가 옵션파라미터 잇어도 후출 없어도 호출 에러는 어쩔수없어
+			htmlDiv.insertAdjacentHTML('afterbegin',res);
+		}
+		
+		for(var i=0 , max=btns.length;i<max;i++){
+			var btn = btns[i];
+			btn.onclick = function(){
+				var targets = this.getAttribute('data-target').split(',');
+				var method = targets[0];
+				var url =targets[1];
+				var xhr = new XMLHttpRequest();
+				xhr.onreadystatechange=function(){
+					if(xhr.readyState==xhr.DONE){
+						this.callback(xhr.response); //xhr의 callback 호출하면 대입된 아이가 오겟죵?
+					}
+				}
+				xhr.open(method,url);
+				xhr.callback = callbacks; //위에 만들어놓은 callbacks 함수를 xhr의 callback에 대입
+				xhr.send();
+		
+			}
+		}
+		
+	</script>
+</body>
+</html>
