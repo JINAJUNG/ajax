@@ -5,29 +5,43 @@
 <title>Insert title here</title>
 </head>
 <body>
-	이름 : <input type="text" name="name" id="name" value="지나"><br>
-	아이디 : <input type="text" name="id" id="id" value="jina"><br>
-	비밀번호 : <input type="password" name="pwd" id="pwd" value="jin"><br>
-	성별 : <select name ="trans" id="trans">
-		<option value="1" selected>여</option>
-		<option value="2">남</option>
-	</select><br>
+	<div>
+		검색번호 : <input type="text" id="dino" />
+	</div>
+	<table id="tid" border="1">
+		<thead>
+			<tr>
+				<th>dino</th>
+				<th>diname</th>
+				<th>didesc</th>
+				<th>dicnt</th>
+			</tr>
+
+		</thead>
+
+	</table>
 	<button data-json="/json/server/test.jsp">회원가입</button>
-	
+
 	<script>
 		var btns = document.querySelectorAll('button[data-json]');
+		var tid = document.querySelector('#tid');
+		var html = '';
 		for(var i=0;i<btns.length;i++){
 			var btn=btns[i];
 			btn.onclick=function(){
 				var xhr = new XMLHttpRequest();
 				var url = this.getAttribute('data-json');
+				/* 
 				var name = document.querySelector('#name').value;
 				var id = document.querySelector('#id').value;
 				var pwd = document.querySelector('#pwd').value;
 				var trans = document.querySelector('#trans').value;
-				
-				var param = {name:name, id:id, pwd:pwd, trans:trans};
-				
+				 */
+				var dino = document.querySelector('#dino').value;
+				 if(dino.length==0){
+					 dino=0;
+				 }
+				var param = {dino:dino};
 				param = JSON.stringify(param);
 				
 				xhr.onreadystatechange = function(){
@@ -38,16 +52,37 @@
 							alert(json);
 							var list = JSON.parse(json); //object(객체)로 변환
 							console.log(list)//Object
-							alert(list[1].diname+', '+list[0]['dicode']);
+							//alert(list[1].diname+', '+list[0]['dicode']);
+
+							if (tid.hasChildNodes()){
+							    var children = tid.childNodes;
+							    for(var i=0; i<children.length; i++){
+							       if(children[i].nodeName==='TBODY'){
+							    	   tid.removeChild(children[i]);
+							       }
+							    }
+							}
+							for(var i=0, max = list.length;i<max;i++){
+								html +='<tr>';
+								html +='<td>'+list[i]['dino']+'</td>';	
+								html +='<td>'+list[i]['diname']+'</td>';	
+								html +='<td>'+list[i]['didesc']+'</td>';	
+								html +='<td>'+list[i]['dicnt']+'</td>';	
+								html +='</tr>';	
+							}
+							
+							tid.insertAdjacentHTML('beforeend',html);
+							html='';
 							
 						}else{
 							alert('움 실패인걸?'+xhr.status);
 						}
 					}
-				}
-				//param = encodeURIComponent(param);
-				xhr.open('post',url);
-				xhr.send(param);
+				} 
+				dino = encodeURIComponent(dino); //get
+				xhr.open('get',url+'?dino='+dino);
+				//xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); post
+				xhr.send();
 				alert(1);
 			}
 

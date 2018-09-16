@@ -26,19 +26,30 @@ public class TestServlet extends HttpServlet {
 			throws ServletException, IOException {
 		Gson gson = new Gson();
 		Connection con = DBCon.getCon();
-		String sql = "select * from depart_info";
+		int dino;
+		try {
+			dino = Integer.parseInt(request.getParameter("dino"));	
+		}catch(NumberFormatException e) {
+			dino = 0;
+		}
+		
+		String sql = "select * from DIPART_INFO";
+		if(dino!=0) {
+			sql +=" where dino=?";
+		}
+		
+		
 		List<DInfo> dList = new ArrayList<>();
 		PrintWriter pw = response.getWriter();
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
+			if(dino!=0) {
+			ps.setInt(1, dino);
+			}
 			ResultSet rs = ps.executeQuery();
 
 			while (rs.next()) {
-				DInfo d = new DInfo();
-				d.setDinum(rs.getInt("dinum"));
-				d.setDicode(rs.getString("diCode"));
-				d.setDiname(rs.getString("diName"));
-				d.setDidesc(rs.getString("diDesc"));
+				DInfo d = new DInfo(rs.getInt("dino"),rs.getString("diname"),rs.getString("didesc"),rs.getInt("dicnt"));
 				dList.add(d);
 			}
 			pw.println(gson.toJson(dList));

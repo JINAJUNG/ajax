@@ -1,49 +1,48 @@
 package json;
 
 public class DInfo {
-	private int dinum;
-	private String dicode;
+	private int dino;
 	private String diname;
 	private String didesc;
-
+	private int dicnt;
 	public DInfo() {
-
+		
 	}
-
-	public int getDinum() {
-		return dinum;
+	public DInfo(int dino, String diname, String didesc, int dicnt) {
+		super();
+		this.dino = dino;
+		this.diname = diname;
+		this.didesc = didesc;
+		this.dicnt = dicnt;
 	}
-
-	public void setDinum(int dinum) {
-		this.dinum = dinum;
+	public int getDino() {
+		return dino;
 	}
-
-	public String getDicode() {
-		return dicode;
+	public void setDino(int dino) {
+		this.dino = dino;
 	}
-
-	public void setDicode(String dicode) {
-		this.dicode = dicode;
-	}
-
 	public String getDiname() {
 		return diname;
 	}
-
 	public void setDiname(String diname) {
 		this.diname = diname;
 	}
-
 	public String getDidesc() {
 		return didesc;
 	}
-
 	public void setDidesc(String didesc) {
 		this.didesc = didesc;
 	}
-
+	public int getDicnt() {
+		return dicnt;
+	}
+	public void setDicnt(int dicnt) {
+		this.dicnt = dicnt;
+	}
 	@Override
 	public String toString() {
-		return "DInfo [dinum=" + dinum + ", dicode=" + dicode + ", diname=" + diname + ", didesc=" + didesc + "]";
+		return "DInfo [dino=" + dino + ", diname=" + diname + ", didesc=" + didesc + ", dicnt=" + dicnt + "]";
 	}
+	
+	
 }
