@@ -2,7 +2,7 @@
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.Connection"%>
-<%@page import="json.DBCon"%>
+<%@page import="common.DBCon"%>
 
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>

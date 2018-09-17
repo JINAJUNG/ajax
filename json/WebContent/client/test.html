@@ -5,16 +5,17 @@
 <title>Insert title here</title>
 </head>
 <body>
+<!-- list = vo, 검색 = hashMap -->
 	<div>
 		검색번호 : <input type="text" id="dino" />
 	</div>
 	<table id="tid" border="1">
 		<thead>
 			<tr>
-				<th>dino</th>
+				<th>dinum</th>
+				<th>dicode</th>
 				<th>diname</th>
 				<th>didesc</th>
-				<th>dicnt</th>
 			</tr>
 
 		</thead>
@@ -64,10 +65,10 @@
 							}
 							for(var i=0, max = list.length;i<max;i++){
 								html +='<tr>';
-								html +='<td>'+list[i]['dino']+'</td>';	
+								html +='<td>'+list[i]['dinum']+'</td>';	
+								html +='<td>'+list[i]['dicode']+'</td>';	
 								html +='<td>'+list[i]['diname']+'</td>';	
 								html +='<td>'+list[i]['didesc']+'</td>';	
-								html +='<td>'+list[i]['dicnt']+'</td>';	
 								html +='</tr>';	
 							}
 							

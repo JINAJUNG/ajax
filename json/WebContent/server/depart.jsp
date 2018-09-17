@@ -1,6 +1,6 @@
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
-<%@page import="json.DBCon"%>
+<%@page import="common.DBCon"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="json.Depart"%>
 <%@page import="com.google.gson.Gson"%>

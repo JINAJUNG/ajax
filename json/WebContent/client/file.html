@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<form action="/json/server/file.jsp" method="post" enctype="multipart/form-data">
+		이름 : <input type="text" name="name"><br> 이미지 : <input
+			type="file" name="img"><br>
+		<button type="button">전송</button>
+	</form>
+	<progress></progress>
+	<script type="text/javascript">
+		var btn = document.querySelector('button[type=button]');
+		btn.onclick = function(){
+			var form = document.querySelector('form');
+			var formData = new FormData(form);
+			console.log(formData.get("name"));
+			console.log(formData.get("name"));
+			var url = form.getAttribute('action');
+			var progress = document.querySelector('progress');
+			
+			var xhr = new XMLHttpRequest();
+			
+			xhr.open('post',url);
+			xhr.onreadystatechange = function(){
+				if(xhr.readyState==xhr.DONE){
+					if(xhr.status==200){
+						alert('성공');
+					}else{
+						alert('실패');
+					}
+				}
+			}
+			
+			xhr.upload.onprogress = function(e){ //e = exection or event 중에 하납니당
+				if(e.lengthComputable){//계산
+					progress.max = e.total;
+					progress.value = e.loaded;
+					var per = Math.round(e.loaded*100/e.total);
+					console.log(per+'%');
+					console.log(e.total);
+					console.log(e.loaded);	
+					
+				}
+			}
+			xhr.upload.onloadstart = function(e){
+				progress.max = e.total;
+				progress.value = e.loaded;
+			}
+			xhr.upload.onloadend = function(e){
+				progress.value = e.total;
+			}
+			
+			xhr.send(formData);
+			
+		
+		}
+	</script>
+</body>
+</html>
