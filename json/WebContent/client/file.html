@@ -10,14 +10,14 @@
 			type="file" name="img"><br>
 		<button type="button">전송</button>
 	</form>
-	<progress></progress>
+	<progress value="0"></progress>
 	<script type="text/javascript">
 		var btn = document.querySelector('button[type=button]');
 		btn.onclick = function(){
 			var form = document.querySelector('form');
 			var formData = new FormData(form);
 			console.log(formData.get("name"));
-			console.log(formData.get("name"));
+			console.log(formData.get("img"));
 			var url = form.getAttribute('action');
 			var progress = document.querySelector('progress');
 			
@@ -27,11 +27,21 @@
 			xhr.onreadystatechange = function(){
 				if(xhr.readyState==xhr.DONE){
 					if(xhr.status==200){
-						alert('성공');
+						var obj = JSON.parse(xhr.responseText);
+						console.log(obj)
+						if(obj['com']==-1){
+							alert(obj['msg']);	
+						}
+						
 					}else{
 						alert('실패');
 					}
 				}
+			}
+			
+			xhr.upload.onloadstart = function(e){
+				progress.max = e.total;
+				progress.value = e.loaded;
 			}
 			
 			xhr.upload.onprogress = function(e){ //e = exection or event 중에 하납니당
@@ -45,10 +55,7 @@
 					
 				}
 			}
-			xhr.upload.onloadstart = function(e){
-				progress.max = e.total;
-				progress.value = e.loaded;
-			}
+			
 			xhr.upload.onloadend = function(e){
 				progress.value = e.total;
 			}
