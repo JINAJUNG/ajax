@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="/json/js/AjaxUtil.js"></script>
+<title>Insert title here</title>
+</head>
+<body>
+부서명 : <input type="text" name="diname" id="diname">
+<button type="button" onclick="getd()">검색</button>
+<div id="rdiv"></div>
+
+	<script>
+	
+		var conf = {
+			url : '/json/server/test.jsp',
+			cb : function(res) {
+				document.querySelector('#rdiv').innerHTML=res;
+			},
+		method:"post"
+		};
+		function getd(){
+			var diname = document.querySelector('#diname').value;
+			conf.param={diname:diname};
+			var au = new AjaxUtil(conf);
+			au.send();
+		}
+	</script>
+</body>
+</html>
