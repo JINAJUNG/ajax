@@ -11,48 +11,45 @@
 			var url = conf.url;
 			var param = conf.param;
 			var type = conf.tyope;
-			
-			
-			var comErr =  function(res){
-				alert(res);
-			} 
-			var comCb =  function(res){
+
+			var comErr = function(res) {
 				alert(res);
 			}
-			
-			var callback = conf.cb?conf.cb:comCb;
-			var errback = conf.err?conf.err:comErr;
-			
+			var comCb = function(res) {
+				alert(res);
+			}
+
+			var callback = conf.cb ? conf.cb : comCb;
+			var errback = conf.err ? conf.err : comErr;
+
 			var xhr = new XMLHttpRequest();
-			
+
 			xhr.cb = callback;
 			xhr.err = errback;
-			
-		
-			xhr.onreadystatechange = function(){
-				if(xhr.readyState==4){
-					if(xhr.status==200){
+
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState == 4) {
+					if (xhr.status == 200) {
 						xhr.cb(xhr.response);
-					}else{
+					} else {
 						xhr.err(xhr.response);
 					}
-				}	
+				}
 			}
-			
-			this.send = function(){
-				xhr.open(method,url);
+
+			this.send = function() {
+				xhr.open(method, url);
 				xhr.send();
 			}
 		}
-
-		var au = new AjaxUtil({type : 'json', method : 'post', url :'/json/server/test.jsp',cb:function(res){ //http://192.168.0.25/json/server/test.jsp
-			console.log(res);
-			//res = JSON.parse(res);
-			alert(res);
-		}});
-		au.send();
-		
-		
+		/* 
+		 var au = new AjaxUtil({type : 'json', method : 'post', url :'/json/server/test.jsp',cb:function(res){ //http://192.168.0.25/json/server/test.jsp
+		 console.log(res);
+		 //res = JSON.parse(res);
+		 alert(res);
+		 }});
+		 au.send();
+		 */
 	</script>
 </body>
 </html>

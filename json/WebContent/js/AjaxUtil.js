@@ -6,7 +6,7 @@ var AjaxUtil = function(conf) {
 	var url = conf.url;
 	var param = JSON.stringify(conf.param);
 	var type = conf.type ? conf.tyope : 'json';
-
+	
 	var comErr = function(res) {
 		alert(res);
 	}
@@ -37,6 +37,7 @@ var AjaxUtil = function(conf) {
 		
 		if (method == 'GET') {
 			url += '?param=' + encodeURIComponent(param);
+
 		}
 		xhr.open(method, url);
 		xhr.setRequestHeader("Content-Type","application/json; charset=utf-8");

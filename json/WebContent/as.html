@@ -3,12 +3,70 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src ="/json/js/AjaxUtil.js"></script>
+<script src="/json/js/AjaxUtil.js"></script>
 </head>
 <body>
-<script type="text/javascript">
-var au = new AjaxUtil({url:'/json/json/list1'});
-au.send();
-</script>
+	부서 번호 :
+	<input type="text" name="deName" id="deName">
+	<button type="button">검색</button>
+	<br>
+
+	<table border="1"></table>
+
+	<script>
+		var btn = document.querySelector('button');
+		var par = document.querySelector('#deName');
+		
+		btn.onclick = function(){
+			var au = new AjaxUtil({url:'/json/json/DiList',param:par.value,cb:callback});
+			au.send();	
+			
+		}
+			
+		
+		function callback(res){
+			var diList = JSON.parse(res);
+			makeT(diList);
+			
+			var h ='';
+			diList.forEach((d) => {
+				//forEach
+				});
+		}
+		
+		function makeT(res){
+			
+			var tId = document.querySelector('table');
+			tId.innerHTML = '';
+			var html = '';
+			var v = '<tr>';
+			var cnt = 0;
+			for(var row of res){// of =value를 di로 in=key를 di로
+				html += '<tr>';
+				
+				for(var column in row){
+					if(cnt==0){
+						html += '<th>'+ column + '</th>';
+						v += '<td>' + row[column] + '</td>';
+					}else{
+						html += '<td>' + row[column] + '</td>';
+					}
+					console.log(row[0])
+					
+				}
+				cnt = cnt + 1;
+				
+				if(cnt == 1){
+					html += v + '</tr>';
+				}
+				html += '</tr>';
+				
+			}
+			
+			tId.insertAdjacentHTML('beforeend', html);
+			
+			
+		}
+	</script>
 </body>
 </html>
