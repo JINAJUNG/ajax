@@ -13,8 +13,9 @@ import com.google.gson.Gson;
 
 import service.DepartService;
 import service.TicketService;
+import vo.TicketInfo;
 
-@WebServlet("/json/*")
+@WebServlet("/api/json/*")
 public class JsonServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Gson gson = new Gson();
@@ -35,7 +36,7 @@ public class JsonServlet extends HttpServlet {
 			String json = gson.toJson(ds.getDepartInfoList());
 			pw.print(json);
 		} else if (cmd.equals("TiList")) {
-			String json = gson.toJson(ts.getTicketList());
+			String json = gson.toJson(ts.getTicketList(new TicketInfo()));
 			pw.println(json);
 		} else {
 			response.setStatus(404);
