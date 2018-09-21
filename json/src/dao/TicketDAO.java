@@ -108,6 +108,8 @@ public class TicketDAO {
 			ps.setInt(2, t.getTmprice());
 			ps.setString(3, t.getTmstartdat());
 			ps.setString(4, t.getTmenddat());
+			ps.setString(5, t.getTmcredat());
+			ps.setInt(6, t.getTmnum());
 			cnt= ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

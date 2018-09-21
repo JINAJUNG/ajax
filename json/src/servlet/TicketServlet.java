@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 import service.TicketService;
+import vo.DepartInfo;
+import vo.PageInfo;
 import vo.TicketInfo;
 
 @WebServlet("/api/ticket/*")
@@ -25,7 +27,6 @@ public class TicketServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String param = request.getParameter("param");
-		System.out.println(param);
 		TicketInfo t = new TicketInfo();
 		if (t != null  && !t.equals("") && param!=null) {
 			t = gson.fromJson(param, TicketInfo.class);
@@ -34,6 +35,7 @@ public class TicketServlet extends HttpServlet {
 		String cmd = uri.substring(uri.lastIndexOf("/") + 1);
 
 		if (cmd.equals("list")) {
+			Map<String, Object> m = new HashMap<>();
 			doWrite(response, ts.getTicketList(t));
 		} else if (cmd.equals("view")) {
 			doWrite(response, ts.getTicket(t));

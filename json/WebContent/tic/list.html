@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="/json/js/AjaxUtil.js"></script>
+<style type="text/css">
+li {
+	float: left;
+	list-style: none;
+	margin: 1px;
+}
+</style>
 </head>
 <body>
 	<table border='1'>
@@ -29,39 +36,117 @@
 			</tr>
 		</tfoot>
 	</table>
+	<div id='blockBox' style="text-align: center"></div>
+
 	<script>
 	var tbody = document.querySelector('tbody');
-window.onload = function(){
-	var au  =  new AjaxUtil({url:'/json/api/ticket/list',cb:callback});
-	au.send();
+	var blockBox = document.querySelector('#blockBox');
+	var resW;
+	window.onload = function(){
+		var au  =  new AjaxUtil({url:'/json/api/ticket/list',cb:callback});
+		au.send();
 	
-	function callback(res){
-		res = JSON.parse(res);
-		//alert(`page : ${res.page}`);
+		function callback(res){
+			resW = JSON.parse(res);
+			pageclick(resW);
+		}
+	}
+	
+	function pageclick(res,nowPage){
+		if(!isNaN(res)){
+			nowPage = res;
+			res=resW;
+			console.log(nowPage);
+			console.log(res);
+		}
+		
+		var totalData = res.list.length;
+		var pageSize = 20;
+		var blockSize = 10;
+		
+		if(nowPage==undefined){
+			nowPage=1;
+		}
+		
+		var totalPage = Math.ceil(totalData / pageSize);
+		var totalBlock = Math.ceil(totalPage / blockSize);
+		
+		var firstBlock = ((nowPage - 1) / blockSize) * blockSize + 1;
+		var lastBlock = firstBlock + blockSize - 1;
+		if (lastBlock > totalPage) {
+			lastBlock = totalPage;
+		}
+		
+		//화면에 출력할 데이터 시작,마지막 계산
+		if(nowPage>totalPage) {
+			nowPage=lastBlock;
+		}
+		var firstNum = (nowPage - 1) * pageSize + 1;
+		var lastNum = nowPage * pageSize;
+		
+		var page = {firstNum:firstNum,lastNum:lastNum, firstBlock:firstBlock, lastBlock:lastBlock,totalPage:totalPage}
+		
+		drowPage(res,page);
+		
+	}
+	
+	function drowPage(res,page){
+		tbody.innerHTML='';
 		var html = '';
 		if(res.list.length==0){
 			html +='<tr><td calspan="7">등록된영화가 없어</td></tr>'
 		}
+		var i=0;
 		for(var tm of res.list){// of =value를 di로 in=key를 di로
-			html +='<tr>';
-			html +='<td>'+tm.tmnum+'</td>';
-			html +='<td><a href=/json/tic/view.jsp?tmnum='+tm.tmnum+'>'+tm.tmname+'</a></td>';
-			html +='<td>'+tm.tmprice+'</td>';
-			html +='<td>'+tm.tmstartdat+'</td>';
-			html +='<td>'+tm.tmenddat+'</td>';
-			html +='<td>'+tm.tmcredat+'</td>';
-			html +='<td>'+tm.tmdesc+'</td>';
-			html +='<td>'+tm.tmcnt+'</td>';
-			html +='<td>'+tm.tmimg+'</td>';
-			html +='</tr>';			
+			if(tm.tmnum>=page.firstNum && tm.tmnum<=page.lastNum){
+				html +='<tr>';
+				html +='<td>'+tm.tmnum+'</td>';
+				html +='<td><a href=/json/tic/view.jsp?tmnum='+tm.tmnum+'>'+tm.tmname+'</a></td>';
+				html +='<td>'+tm.tmprice+'</td>';
+				html +='<td>'+tm.tmstartdat+'</td>';
+				html +='<td>'+tm.tmenddat+'</td>';
+				html +='<td>'+tm.tmcredat+'</td>';
+				html +='<td>'+tm.tmdesc+'</td>';
+				html +='<td>'+tm.tmcnt+'</td>';
+				html +='<td>'+tm.tmimg+'</td>';
+				html +='</tr>';
+			}
 		}
 		tbody.insertAdjacentHTML('afterbegin',html);
+		html = '';
+		blockBox.innerHTML='';
+		html += '<ul>';
+		if(page.firstBlock!=1){
+			html += '<li>Per</li>';
+		}
+		for(var i =page.firstBlock; i<=page.lastBlock;i++){
+			html+='<li onclick="pageclick('+i+')">'+i+'</li>';
+		}
+		if(page.firstBlock!=page.totalPage){
+			html += '<li>next</li>';
+		}
+		
+		html +='</ul>';
+		
+		blockBox.insertAdjacentHTML('afterbegin',html);
+		
+/* 		var litags = document.querySelectorAll('li[data-page]');
+		for(litag of litags){
+			litag.addEventListener("click",function(){
+				pageclick(res,litag.getAttribute('data-page'));
+			})
+			console.log(litag.getAttribute('data-page'));
+		}
+		 */
+		
 	}
-}
 	var btnIn = document.querySelector('#inser');
 	btnIn.onclick = function(){
 		location.href = '/json/tic/insert.html';
 	}
+		
+
+	
 </script>
 </body>
 </html>

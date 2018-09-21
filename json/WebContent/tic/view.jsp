@@ -37,8 +37,14 @@
 		</tr>
 	</table>
 	<script>
+	String.prototype.replaceAll = function(str1,str2){
+		var re = new RegExp(str1,'gi');
+		return this.replace(re,str2);
+	}
+	
 		var tmnum =
 	<%=request.getParameter("tmnum")%>
+		console.log(tmnum);
 		var tdAll = document.querySelectorAll('td[data-col]');
 
 		window.onload = function() {
@@ -49,6 +55,7 @@
 				},
 				cb : callback
 			}
+			console.log({tmnum:tmnum});
 			var au = new AjaxUtil(conf);
 			au.send();
 			function callback(res) {
@@ -61,6 +68,10 @@
 					td.insertAdjacentHTML('afterbegin', '<input value='
 							+ res[td.getAttribute('data-col')] + '>');
 				});
+				
+				for(rs in res){
+					console.log(res.rs);
+				}
 
 			}
 		}
@@ -74,14 +85,14 @@
 				var value = td.firstChild.value;//input박스의 값
 				
 				if(td.getAttribute('data-col')=='tmnum'){
+					value = td.firstChild.wholeText;
 					params[key] = value;
 					return;
 				}
 				
 				params[key] = value;
 			});
-console.log(params)
-			/* var conf = {
+			var conf = {
 				url : '/json/api/ticket/update',
 				method : 'PUT',
 				params : params,
@@ -99,7 +110,7 @@ console.log(params)
 
 				alert('실패');
 
-			} */
+			}
 		}
 
 		var tmdel = document.querySelector('#tmdel');

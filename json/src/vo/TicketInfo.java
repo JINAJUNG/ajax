@@ -10,7 +10,14 @@ public class TicketInfo {
 	private String tmdesc; 
 	private Integer tmcnt; 
 	private String tmimg;
+	private PageInfo pi;
 	
+	public PageInfo getPi() {
+		return pi;
+	}
+	public void setPi(PageInfo pi) {
+		this.pi = pi;
+	}
 	public TicketInfo() {
 		
 	}

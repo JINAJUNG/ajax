@@ -6,7 +6,6 @@ var AjaxUtil = function(conf) {
 	var url = conf.url;
 	var param = conf.params?JSON.stringify(conf.params):'';
 	var type = conf.type ? conf.tyope : 'json';
-
 	var comErr = function(res) {
 		alert(res);
 
